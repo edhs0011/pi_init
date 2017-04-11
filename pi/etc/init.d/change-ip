@@ -1,0 +1,40 @@
+#!/bin/sh
+
+### BEGIN INIT INFO
+# Provides:        change-ip
+# Required-Start:  $network $remote_fs $syslog
+# Required-Stop:   $network $remote_fs $syslog
+# Default-Start:   2 3 4 5
+# Default-Stop: 
+# Short-Description: Start change-ip daemon
+### END INIT INFO
+
+start() {
+	sh /home/pi/Desktop/demo/change-ip.sh > /dev/null 2>&1 &
+        echo
+}
+
+stop() {
+	killproc change-ip
+}
+
+case "$1" in
+  start)
+        start
+        ;;
+  stop)
+        stop
+        ;;
+  status)
+        status mirai
+        ;;
+  restart|reload|condrestart)
+        stop
+        start
+        ;;
+  *)
+        echo $"Usage: $0 {start|stop|restart|reload|status}"
+        exit 1
+esac
+  
+exit 0

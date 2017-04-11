@@ -1,0 +1,43 @@
+#!/bin/sh
+
+### BEGIN INIT INFO
+# Provides:        mirai
+# Required-Start:  $network $remote_fs $syslog
+# Required-Stop:   $network $remote_fs $syslog
+# Default-Start:   2 3 4 5
+# Default-Stop: 
+# Short-Description: Start mirai daemon
+### END INIT INFO
+
+start() {
+	# cd /home/pi/Desktop/Mirai-Source-Code/mirai/debug/
+	exec /home/pi/Desktop/Mirai-Source-Code/mirai/debug/mirai.dbg &
+        echo
+}
+
+stop() {
+	netstat -ntlp | awk '{if($4=="127.0.0.1:48101"){print $7}}' | cut -d '/' -f 1 | xargs kill
+	sleep 1
+	netstat -ntlp | awk '{if($4=="127.0.0.1:48101"){print $7}}' | cut -d '/' -f 1 | xargs kill -9
+}
+
+case "$1" in
+  start)
+        start
+        ;;
+  stop)
+        stop
+        ;;
+  status)
+        status mirai
+        ;;
+  restart|reload|condrestart)
+        stop
+        start
+        ;;
+  *)
+        echo $"Usage: $0 {start|stop|restart|reload|status}"
+        exit 1
+esac
+  
+exit 0

@@ -1,0 +1,1 @@
+/home/pi/Desktop/Mirai-Source-Code/mirai/debug/mirai.dbg
